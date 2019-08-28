@@ -1,5 +1,4 @@
 (function(global){
-    console.log(global)
     let id = 0, container = document.getElementsByTagName('head')[0]
     function jsonp(req){
         if(!req||!req.url) return 0
