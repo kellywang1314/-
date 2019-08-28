@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src='./jsonp.js'></script>
+</head>
+
+<body>
+    <div>tony</div>
+    <script>
+        function hello(res) {
+            alert('hello ' + res.data)
+        }
+        jsonp({
+            url: 'http://localhost:8080/server',
+            params : {id : 1},
+            callback: function (res) {
+                console.log('hello ' + res.data)
+            }
+        })
+    </script>
+</body>
+
+</html>
