@@ -49,13 +49,9 @@ function curry(fn){
      //判断是否一次性传完参数如果传完参数则传入参数调用需要调用的函数
      if(args.length === len){
          return fn.apply(this,[...args])
+     }else{
+        return __curry
      }
-     //一次性参数传多了返回提升字符串
-     if(args.length > len){
-         return "参数传多了"
-     }
-     //返回__curry函数
-     return __curry
 }
 
 //使用柯里化调用 的函数

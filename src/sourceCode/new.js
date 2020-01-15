@@ -13,7 +13,4 @@ function myNew () {
     let result = fn.apply(obj,args)
 
     return typeof result === 'object' ? result : obj
-    
-
 }
-

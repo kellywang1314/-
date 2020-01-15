@@ -25,7 +25,3 @@ const myBind= function(thisObj){
 }
 
 export {myCall,myBind}
-
-
-
-
