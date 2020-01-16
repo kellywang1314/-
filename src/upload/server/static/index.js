@@ -14,7 +14,8 @@
 
     handleUploadFile = () => {
         let file = $file
-        let res = fetch({method:'POST',url:'http://localhost:8080/upload'})
+        let res = fetch({method:'POST',url:'http://localhost:8080/upload',data:{name:'Tony'}, headers:{}})
+        console.log(res)
     }
 
     fetch = ({
@@ -30,6 +31,7 @@
             Object.keys(headers).forEach((item) => {
                 xhr.setRequestHeader(item,headers(item))
             })
+            console.log(data)
             xhr.send(data)
             xhr.onload = (e) => {
                 resolve(e.target.response)
