@@ -13,13 +13,34 @@
             text-align: center;
             width:50px;
             height:30px;
-            
+            border: 1px solid blue;
+            border-radius: 10%
         }
+
+        label{
+            position: relative
+        }
+        #file{
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        #btn{
+            margin-right: 5px
+        }
+        #text{
+            color: red
+        }
+
     </style>
 </head>
 <body>
-    <label for="文件上传"></label>
-    <input type='file' id='file' name='file' multiple="multiple"/>
+
+    <label for="file">
+        <input type="button" id="btn" value="选择文件"><span id="text">请选择文件</span>
+        <input type="file" id='file' name='file' multiple="multiple">
+    </label>
     <div id='upload' class='upload'>上传</div>
     <script src='./index.js'></script>
 </body>

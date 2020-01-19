@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const multer = require('multer')
-const fs = require("fs")
 const path = require('path')
 const fse = require("fs-extra")
 const multiparty = require("multiparty")
@@ -49,7 +48,6 @@ app.post('/upload', (req, res) => {
         res.end("received file chunk")
     });
 
-
     // const fileInfo = req.files
     // console.log(fileInfo)
     // let response,isExits
@@ -82,7 +80,6 @@ app.post('/upload', (req, res) => {
 app.post('/merge', async(req, res) => {
     let filename = req.body.filename
     const filePath = path.resolve(UPLOAD_DIR, './image',filename)
-    console.log(filePath)
     await mergeFileChunk(filePath, filename)
     res.send({
         code: 1,
@@ -93,23 +90,39 @@ app.post('/merge', async(req, res) => {
 
 //合并函数，这里有个问题，同步下写入之后，删除文件，会出现，文件还没写入就被删了
 const mergeFileChunk = async (filePath, filename) => {
-     const chunkDir = path.resolve(UPLOAD_DIR,filename)
-     const chunkPaths = await fse.readdir(chunkDir)
+    const chunkDir = path.resolve(UPLOAD_DIR,filename)
+    const chunkPaths = await fse.readdir(chunkDir)
+    console.log( chunkPaths)
     await fse.writeFile(filePath, "");
     chunkPaths.forEach(chunkPath => {   
         fse.appendFileSync(filePath, fse.readFileSync(path.resolve(chunkDir,chunkPath)))
-        //fse.unlinkSync(path.resolve(chunkDir,chunkPath))
-        // fse.readFile(path.resolve(chunkDir,chunkPath),(err,data)=>{
-        //     fse.appendFile(filePath,data,(err) =>{
-        //         if(err) console.log(err)
-        //         fse.unlinkSync(path.resolve(chunkDir,chunkPath))
-        //     })
-        // })
 
-    });
-    //fse.rmdirSync(chunkDir); // 合并后删除保存切片的目录
+    })
+    setTimeout(() => {
+        rmdirp(chunkDir)
+    }, 10000); // 合并后删除保存切片的目录
+}
+
+// 删除一个文件夹
+function rmdirp(dir) {
+    return new Promise((resolve, reject) => {
+        fse.stat(dir, function (err, status) {
+            if (status.isDirectory()) { //是文件夹
+                fse.readdir(dir, function (err, file) {
+                    let res = file.map((item) => rmdirp(path.join(dir, item)))
+                    Promise.all(res).then( () => { //当所有的子文件都删除后就删除当前文件夹
+                        fse.rmdir(dir, resolve)
+                    })
+                })
+            } else {
+                fse.unlink(dir, resolve)
+            }
+        })
+    })
 }
 
 app.listen(8080, () => {
     console.log('服务器启动成功')
 })
+
+

@@ -5,6 +5,7 @@
     let LEN = 10
     let input = document.querySelector('#file')
     let div = document.querySelector('#upload')
+    let span = document.querySelector('#text')
     input.onchange = (e) => {this.handleFileChange(e)}
     div.onclick = () => {this.handleUploadFile()}
     
@@ -12,6 +13,7 @@
         let file =  e.target.files[0]
         if(!file) return
         $file = file
+        span.innerHTML = file.name
 
     }
 
@@ -42,7 +44,13 @@
                 data:formData
             })
         })
-        await Promise.all(reqList)
+       Promise.all(reqList).then(() =>{
+        // 上传完成之后，请求合并
+        span.innerHTML = '请选择文件'
+        setTimeout(() => {
+            requestMerge()
+           },2000)
+       })
     }
 
     handleUploadFile = async() => {
@@ -56,12 +64,6 @@
        ))
        // 发送请求
        await uploadChunk()
-       // 上传完成之后，请求合并
-       await requestMerge()
-    //    setTimeout(() => {
-    //     requestMerge()
-    //    },10000)
-        
     }
 
     requestMerge = async() => {
