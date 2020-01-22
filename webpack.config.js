@@ -37,6 +37,7 @@ const config = {
       '.jsx'
     ]
   },
+  devtool: "cheap-module-eval-source-map",
   devServer:{
     contentBase:'./dist',
     historyApiFallback:true,

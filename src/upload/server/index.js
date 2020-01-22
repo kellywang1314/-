@@ -4,6 +4,7 @@ const multer = require('multer')
 const path = require('path')
 const fse = require("fs-extra")
 const multiparty = require("multiparty")
+const cors = require('cors');
 const app = express()
 //import { getFileStat } from 'util'
 app.use(express.static(__dirname + '/static'))
@@ -11,7 +12,7 @@ app.use(express.static(__dirname + '/static'))
 // 用于处理前端传递的JSON, Raw, Text 和 URL 编码的数据
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-
+app.use(cors())
 // 用于处理 enctype="multipart/form-data"的表单数据
 // array()内是你要上传的file类型input标签的name名称
 // 上传的文件信息fileInfo数据暂时存放在/upload/temp下，等到写到服务器之后可删除
@@ -78,6 +79,7 @@ app.post('/upload', (req, res) => {
 })
 
 app.post('/merge', async(req, res) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:8082/')
     let filename = req.body.filename
     const filePath = path.resolve(UPLOAD_DIR, './image',filename)
     await mergeFileChunk(filePath, filename)

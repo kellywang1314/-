@@ -1,5 +1,5 @@
 import React from 'react'
-import { Upload, Button, Icon, message } from 'antd'
+import { Upload, Button, Icon, Progress } from 'antd'
 // 单个大文件上传
 
 const LEN = 10
@@ -12,6 +12,7 @@ export default class FileUpload extends React.Component {
             fileChunkList: [],
             reqData: []
         }
+        this.reqData = []
     }
 
     createFileChunk = (file, LEN) => {
@@ -26,52 +27,66 @@ export default class FileUpload extends React.Component {
     }
 
     uploadChunk = async () => {
-        const { reqData,fileList } = this.state
+        const { fileList,reqData } = this.state
         const reqList = reqData
-            .map(({ chunk, hash }) => {
+            .map(({ chunk, hash, index }) => {
                 let formData = new FormData()
                 formData.append('chunk', chunk)
                 formData.append('hash', hash)
                 formData.append('filename', fileList[0].name)
-                return { formData }
+                return { formData, index }
             })
-            .map(async ({ formData }) => {
-                fetch({
+            .map(async ({ formData, index }) => {
+                this.fetch({
                     method: "POST",
                     url: 'http://localhost:8080/upload',
-                    data: formData
+                    data: formData,
+                    onProgress: this.handleProgress(reqData[index])
                 })
             })
         Promise.all(reqList).then(() => {
             // 上传完成之后，请求合并
             setTimeout(() => {
-                requestMerge()
+                this.requestMerge()
             }, 1000)
         })
+
     }
 
     handleUploadFile = async () => {
         const { fileList } = this.state
         if (!fileList[0]) return
-        const fileChunkList = createFileChunk(fileList[0], LEN)
+        const fileChunkList = this.createFileChunk(fileList[0], LEN)
         const reqData = fileChunkList.map(({ file }, index) => (
             {
                 chunk: file,
-                hash: $file.name + '-' + index
+                index,
+                hash: fileList[0].name + '-' + index,
+                percentage: 0
             }
         ))
+        //this.reqData = reqData
         this.setState({
-            fileChunkList:fileChunkList,
-            reqData:reqData
+            fileChunkList: fileChunkList,
+            reqData: reqData
         })
         // 发送请求
-        await uploadChunk()
+        setTimeout(async() => {
+            await this.uploadChunk()
+        },0)
+    }
+
+    // 监控上传进度
+    handleProgress = (item) => {
+        return e => {
+            item.percentage = parseInt(String((e.loaded / e.total) * 100))
+        }
     }
 
     requestMerge = async () => {
         const { fileList } = this.state
         let filename = fileList[0].name
-        fetch({
+        this.fetch({
             method: 'POST',
             url: 'http://localhost:8080/merge',
             headers: { "content-type": "application/json" },
@@ -86,10 +101,12 @@ export default class FileUpload extends React.Component {
         url,
         // 这里为什么需要JSON.stringify序列化data：xhr.send()方法要求传入数据格式是字符串/DOM/formData/Blob,不能是对象
         data = {},
-        headers = {}
+        headers = {},
+        onProgress = e => e,
     }) => {
         return new Promise((resolve, reject) => {
             let xhr = new XMLHttpRequest()
+            xhr.upload.onprogress = onProgress
             xhr.open(method, url)
             Object.keys(headers).forEach((item) => {
                 xhr.setRequestHeader(item, headers[item])
@@ -102,7 +119,7 @@ export default class FileUpload extends React.Component {
     }
 
     render() {
-        const { uploading, fileList } = this.state
+        const { uploading, fileList,reqData } = this.state
         const props = {
             // 删除文件
             onRemove: file => {
@@ -124,6 +141,7 @@ export default class FileUpload extends React.Component {
             },
             fileList,
         };
+        console.log(reqData)
         return (
             <div>
                 <Upload {...props}>
@@ -140,6 +158,16 @@ export default class FileUpload extends React.Component {
                 >
                     {uploading ? '上传中' : '开始上传'}
                 </Button>
+                <div>
+                    {reqData.map((item,index) => {
+                        <div key={index}>
+                            <div>{item.hash}</div>
+                            <div>{(item.chunk.size/1024)}</div>
+                            <Progress percent={30} />
+                        </div>
+                    })}
+                    
+                </div>
             </div>
         )
     }
