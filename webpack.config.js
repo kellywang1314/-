@@ -17,10 +17,17 @@ const config = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader'
-        ]
-      },
+            {
+                loader: 'typings-for-css-modules-loader',
+                options: {
+                    modules: true,
+                    namedExport: true,
+                    localIdentName: "[local]"
+                }
+            }
+        ],
+        exclude: /node_modules/
+    },
       {
         test: /\.scss$/,
         use: [
