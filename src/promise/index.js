@@ -9,99 +9,157 @@
 
 
 /** 
- * 
- * 
  * 手动实现一个promise，
+ * https://time.geekbang.org/dailylesson/detail/100028449
  * 参考：https://zhuanlan.zhihu.com/p/52714698
  * 
  * **/
-//最基础的
-function Promise(Fn){
-    let resolveCall = function() {console.log('我是默认的');}; // 定义为函数是为了防止没有then方法时报错
-    this.then = (onFulfilled) => {
-        resolveCall = onFulfilled;
-    };
-    function resolve(v){ // 将resolve的参数传给then中的回调
-        resolveCall(v);
+
+ // 第一步：实现promise的基本框架
+ class myPromise{
+     constructor(fn){
+        this.resolveValue = null
+        this.rejectValue = null 
+
+        const resolve = (resolveValue) => {
+            this.resolveValue = resolveValue
+         }
+    
+        const reject = (rejectValue) => {
+            this.rejectValue = rejectValue
+         }
+    
+         try{
+            fn(resolve,reject)
+         }catch(rejectValue){
+            reject(rejectValue)
+         }
+     }
+ }
+
+const promise = new myPromise((resolve,reject) => {
+    resolve('我来了')  
+})
+
+
+// 第二步：增加状态机
+const pending = 'pending'
+const fullfilled = 'fullfilled'
+const rejected = 'rejected'
+class myPromise{
+    constructor(fn){
+       this.resolveValue = null
+       this.rejectValue = null 
+       this.state = pending
+       const resolve = (resolveValue) => {
+           if(this.state === pending){
+                this.resolveValue = resolveValue
+                this.state = fullfilled
+           }
+        }
+   
+       const reject = (rejectValue) => {
+           if(this.state === pending){
+                this.rejectValue = rejectValue
+                this.state = rejected
+           }
+           
+        }
+   
+        try{
+           fn(resolve,reject)
+        }catch(rejectValue){
+           reject(rejectValue)
+        }
     }
-    Fn(resolve);
 }
 
-//增加链式调用
-function Promise(Fn){
-    this.resolves = []; // 方便存储onFulfilled
-    this.then = (onFulfilled) => {
-        this.resolves.push(onFulfilled);
-        return this;
-    };
-    let resolve = (value) =>{ // 改用箭头函数，这样不用担心this指针问题
-        setTimeout(_ => {
-            this.resolves.forEach(fn => fn(value));
-        });
-    };
-    Fn(resolve);
-}
+// 第三步：增加then方法
 
-//增加状态
-function Promise(Fn){
-    this.resolves = [];
-    this.status = 'PENDING'; // 初始为'PENDING'状态
-    this.value;
-    this.then = (onFulfilled) => {
-        if (this.status === 'PENDING') { // 如果是'PENDING'，则储存到数组中
-            this.resolves.push(onFulfilled);
-        } else if (this.status === 'FULFILLED') { // 如果是'FULFILLED'，则立即执行回调
-            console.log('isFULFILLED');
-            onFulfilled(this.value);
+const pending = 'pending'
+const fullfilled = 'fullfilled'
+const rejected = 'rejected'
+class myPromise{
+    constructor(fn){
+       this.resolveValue = null
+       this.rejectValue = null 
+       this.state = pending
+       const resolve = (resolveValue) => {
+           if(this.state === pending){
+                this.resolveValue = resolveValue
+                this.state = fullfilled
+           }
         }
-        return this;
-    };
-    let resolve = (value) =>{
-        if (this.status === 'PENDING') { // 'PENDING' 状态才执行resolve操作
-            setTimeout(_ => {
-                //状态转换为FULFILLED
-                //执行then时保存到resolves里的回调
-                //如果回调有返回值，更新当前value
-                this.status = 'FULFILLED';
-                this.resolves.forEach(fn => value = fn(value) || value);
-                this.value = value;
-            });
+       const reject = (rejectValue) => {
+           if(this.state === pending){
+                this.rejectValue = rejectValue
+                this.state = rejected
+           }  
         }
-    };
-    Fn(resolve);
+   
+        try{
+           fn(resolve,reject)
+        }catch(rejectValue){
+           reject(rejectValue)
+        }
+    }
+
+    then(onFullFilled,onRejected){
+        if(this.state === fullfilled){
+            onFullFilled()
+        }else{
+            onRejected()
+        }
+    }
 }
 
 
-/* 红灯三秒亮一次，绿灯一秒亮一次，黄灯2秒亮一次；如何让三个灯不断交替重复亮灯？
-（用Promse实现）三个亮灯函数已经存在： */
-function red(){
-    console.log('red')
-}
-function green(){
-    console.log('green')
-}
-function blue(){
-    console.log('blue')
-}
-function light(timer,fn){
-    return new Promise(function(resolve){
-        setTimeout(function(){
-            fn()
-            resolve()
-        },timer)
-    })
-}
-function lightcontrol(){
-  //new Promise((resolve) => {resolve()}).then(() =>{
-    Promise.resolve().then(() =>{
-        return light(3000,red)
-    }).then(() => {
-        return light(2000,green)
-    }).then(() => {
-        return light(1000,blue)
-    }).then(() => {
-        lightcontrol()
-    }) 
-}
+// 第四步：增加异步调用
 
+const pending = 'pending'
+const fullfilled = 'fullfilled'
+const rejected = 'rejected'
+class myPromise{
+    constructor(fn){
+       this.resolveValue = null
+       this.rejectValue = null 
+       this.state = pending
+       this.fullfilledcallback = []
+       this.rejectcallback = []
+       const resolve = (resolveValue) => {
+           if(this.state === pending){
+                this.resolveValue = resolveValue
+                this.state = fullfilled
+                this.fullfilledcallback.shift()(this.resolveValue)
+           }
+        }
+       const reject = (rejectValue) => {
+           if(this.state === pending){
+                this.rejectValue = rejectValue
+                this.state = rejected
+                this.rejectcallback .shift()(this.resolveValue)
+           }  
+        }
+   
+        try{
+           fn(resolve,reject)
+        }catch(rejectValue){
+           reject(rejectValue)
+        }
+    }
+
+    then(onFullFilled,onRejected){
+        if(this.state === fullfilled){
+            onFullFilled(this.resolveValue)
+        // 在异步调用进来状态为pending，此时把onFullFilled放入队列等待状态改变的执行时机
+        }else if(this.state === pending){
+            this.fullfilledcallback.push(onFullFilled)
+            this.rejectcallback.push(onRejected)
+        }else{
+            onRejected(this.resolveValue)
+        }
+        // 第五步，增加链式调用（最难的一步）？？？？
+        return this
+    }
+}
 

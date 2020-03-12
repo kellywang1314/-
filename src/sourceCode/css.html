@@ -1,0 +1,141 @@
+<!-- 
+  css单位
+  1. em：em单位被定义为当前字体大小，每个子元素会继承直接父元素的大小
+  2. rem：基于一个唯一的度量标准来按比例缩放，rem是所有元素都继承根元素字体大小
+  3. vh：vh等于viewport高度的1/100；vw是viewport高度的1/100
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .center {
+            height: 300px;
+            width: 300px;
+            background-color: blue;
+            /* position: absolute */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .center_child {
+            height: 100px;
+            width: 100px;
+            background-color: red;
+        }
+
+        #container {
+            width: 50%;
+            position: relative;
+            background-color: red;
+            /* 需要触发BFC消除margin折叠的问题 */
+            overflow: hidden;
+        }
+
+        .placeholder:after {
+            content: '';
+            display: block;
+            /* margin 百分比相对父元素宽度计算 */
+            margin-top: 100%;
+        }
+
+        img {
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
+        .square {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            overflow: hidden;
+            /* padding百分比是相对父元素宽度计算的 */
+        }
+
+        .square-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* 铺满父元素容器，这时候宽高就始终相等了 */
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .square-inner>li {
+            width: calc(98% / 3);
+            height: calc(98% / 3); 
+            background-color: #4d839c;
+        }
+
+        .rotate{
+            width:200px;
+            height: 200px;
+            background-color: cadetblue;
+        }
+
+        @keyframes type{
+            0%{transform: rotate(0deg);}
+            50%{transform: rotate(180deg)}
+            to{transform: rotate(360deg)}
+        }
+
+        .rotateImg{
+            width:50px;
+            height: 50px;
+            animation: type 2s linear infinite ;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <!-- css垂直居中(translate/flex) -->
+        <div class='center'>
+            <div class='center_child'></div>
+        </div>
+        <!-- css自适应高度 -->
+        <div id="container" class="placeholder">
+            <img src="https://dimg04.c-ctrip.com/images/300v1b000001ah1uw5387_C_210_210.jpg" />
+        </div>
+        <!-- css实现九宫格图片 -->
+        <div class="square">
+            <ul class="square-inner">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+            </ul>
+        </div>
+        <!-- css旋转动画 -->
+        <div class='rotate'>
+            <img src='https://dimg04.c-ctrip.com/images/300v1b000001ah1uw5387_C_210_210.jpg' class='rotateImg'/>
+        </div>
+    </div>
+    <script>
+    </script>
+</body>
+
+</html>
+
+

@@ -14,3 +14,14 @@ function myNew () {
 
     return typeof result === 'object' ? result : obj
 }
+
+
+// 
+function myNew(fn){
+    let args = [...argument].slice(1)
+    let obj = {}
+    obj.__proto__ = fn.prototype
+    let result = fn.call(obj,args)
+    return typeof obj === 'object' ? result : obj
+
+}

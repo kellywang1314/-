@@ -49,12 +49,13 @@ const config = {
     contentBase:'./dist',
     historyApiFallback:true,
     hot:true,
-    inline:true
+    inline:true,
+    open:true
 
 },
   plugins:[
     new HtmlWebpackPlugin({
-        template: "./src/upload/client/index.html"
+        template: "./src/index.html"
     }),
 ]
 

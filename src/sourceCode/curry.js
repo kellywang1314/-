@@ -35,7 +35,7 @@ function curry(fn){
      //参数未传递结束继续返回函数就行传参
      function __curry(){
          //保持除调用函数外所有参数
-          args.push(...arguments)
+         args.push(...arguments)
          //参数不够时保存每次传参个数
          newLen+=arguments.length
          //判断参数是否和需要调用函数的参数保持一致
@@ -56,7 +56,9 @@ function curry(fn){
 
 //使用柯里化调用 的函数
 function add(a,b,c,d){
-    return a+b+c+d;
+    let res = a+b+c+d
+    console.log(res)
+    return res
 }
 //测试
 console.log(curry(add,1,2,3,4));//输出 10
@@ -66,3 +68,7 @@ console.log(curry(add,1)(3)(4)(2));//输出 10
 console.log(curry(add)(3)(4)(2)(1));//输出 10
 console.log(curry(add)(3)(4)(2)(1));//输出 10
 console.log(curry(add,1,2,3,4,5));//输出 参数传多了
+
+
+// 函数柯里化
+

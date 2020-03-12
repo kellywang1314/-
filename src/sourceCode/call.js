@@ -1,5 +1,5 @@
 //call源码实现:主要是吧调用call的函数赋值给thisObj对象
-const myCall = function(thisObj){
+Function.prototype. myCall = function(thisObj){
     if (typeof this !== 'function') {
         throw this + ' is not a function';
       }
@@ -12,7 +12,7 @@ const myCall = function(thisObj){
 }
 
 //bind的实现:同call不同的是不是立即执行的
-const myBind= function(thisObj){
+Function.prototype.myBind= function(thisObj){
     if (typeof this !== 'function') {
         throw TypeError("Bind must be called on a function");
       }
@@ -23,5 +23,4 @@ const myBind= function(thisObj){
     }
     return bound
 }
-
 export {myCall,myBind}

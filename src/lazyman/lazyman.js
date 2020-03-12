@@ -1,13 +1,9 @@
-module.exports =  class Lazyman{
+module.exports =  class __Lazyman{
     constructor(name){
         this.name = name
-        this.inputname 
-        this.time
-        this.eatsome
         this.tasks = []
         const task = () => {
             console.log(`Hi,This is ${this.name}`)
-            this.inputname = `Hi,This is ${this.name}`
             this.next()
         }
         this.tasks.push(task)
@@ -34,7 +30,6 @@ module.exports =  class Lazyman{
         const task = ()=>{
             setTimeout(() => {
                 console.log(`Wake up ${time}`)
-                this.time = `Wake up ${time}`
                 this.next()
             },time*1000)
         }
@@ -43,12 +38,12 @@ module.exports =  class Lazyman{
         }else{
             this.tasks.push(task)
         }
+        return this
     }
 
     eat(some){
         const task = ()=>{
             console.log(`Eat ${some}`)
-            this.eatsome = `Eat ${some}`
             this.next()
         }
         this.tasks.push(task)
@@ -56,7 +51,9 @@ module.exports =  class Lazyman{
     }
     
 }
-
+function LazyMan(name) {
+    return new __Lazyman(name);
+}
   
 
 

@@ -93,6 +93,7 @@ actions.call(this)
             cum.concat(Array.isArray(item) ? Flat(item): item)
         ),[])
     }
+
     
 // 数组去重：const arr = [2, 1, 0, 3, 2, 1, 2],这里不能用push，因为push返回的是值
     function Unique(arr=[]){
@@ -103,27 +104,28 @@ actions.call(this)
 
 
 // 数组成员个数统计：const arr = [0, 1, 1, 2, 2, 2],
-// 必须要返回cum，如果处理语句没有返回，需要处理逻辑,cum,这里返回的是cum[item]，不是cum本身，所以要加,cum
+// 必须要返回cum，如果处理语句没有返回，需要处理逻辑,cum
     function Count(arr=[]){
         return arr.reduce((cum,item)=>{
-            return cum[item]=(cum[item] || 0)+1,cum
+            cum[item]=(cum[item] || 0)+1
+            return cum
         },{})
     }
-
 // 数组成员位置记录：const  arr = [2, 1, 5, 4, 2, 1, 6, 6, 7]
     function Postion(arr=[],pos){
         return arr.reduce((cum,item,index)=>{
-            return item === pos && cum.push(index),cum
+            item === pos && cum.push(index)
+            return cum
         },[])
     }
-
 
 // URL参数反序列化  const url = https://www.baidu.com?age=25&name=TYJ
     function ParseUrl(url=''){
         let params = url.split('?')[1].split('&')
         return params.reduce((cum,item) => {
             let items = item.split('=')
-            return cum[item[0]]=items[1],cum
+            cum[item[0]]=items[1]
+            return  cum
         },{})
     }
 
