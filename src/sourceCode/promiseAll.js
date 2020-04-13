@@ -5,9 +5,9 @@ function PromiseAll(promises){
     let count = 0, len = promises.length
     return new Promise((resolve,reject) => {
        for(let i of promises){
-           Promise.resolve(val).then((res) =>{
+           Promise.resolve(i).then((res) =>{
                 count++
-                result[i] = res
+                results[count] = res
                 if(len === count){
                     return resolve(results)
                 }
@@ -15,3 +15,17 @@ function PromiseAll(promises){
        }
     })
 }
+
+
+let promises = [new Promise((resolve) => {
+    setTimeout(() => {
+        resolve(1)
+    },4000)
+    // resolve(1)
+}),new Promise((resolve) => {
+    setTimeout(() => {
+        resolve(2)
+    },3000)
+    // resolve(2)
+})]
+Promise.all(promises)

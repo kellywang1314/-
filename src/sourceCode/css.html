@@ -79,27 +79,97 @@
 
         .square-inner>li {
             width: calc(98% / 3);
-            height: calc(98% / 3); 
+            height: calc(98% / 3);
             background-color: #4d839c;
         }
 
-        .rotate{
-            width:200px;
+        .rotate {
+            width: 200px;
             height: 200px;
             background-color: cadetblue;
         }
 
-        @keyframes type{
-            0%{transform: rotate(0deg);}
-            50%{transform: rotate(180deg)}
-            to{transform: rotate(360deg)}
+        @keyframes type {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(180deg)
+            }
+
+            to {
+                transform: rotate(360deg)
+            }
         }
 
-        .rotateImg{
-            width:50px;
+        .rotateImg {
+            width: 50px;
             height: 50px;
-            animation: type 2s linear infinite ;
+            animation: type 2s linear infinite;
         }
+
+        .twoParent {
+            /* display: flex; */
+        }
+
+        .twoLeft {
+            background-color: blue;
+            width: 100px;
+            height: 200px;
+            float: left;
+        }
+
+        .twoRight {
+            background-color: red;
+            /* flex:1; */
+            margin-left: 100px;
+            height: 200px;
+        }
+
+        .threeParent {
+            /* overflow: hidden; */
+            position: 'relative'
+        }
+
+        .threeLeft {
+            position: absolute;
+            width: 100px;
+            left:0px;
+            background-color: cyan;
+        }
+
+        .main {
+           position: absolute;
+            left:100px;
+            right: 200px;
+           background-color: darkred;
+
+        }
+
+        .threeRight {
+            position: absolute;
+            width: 200px;
+            right:0px;
+            background-color: darkmagenta;
+        }
+        .floatParent{
+
+        }
+        .float1{
+            float: left;
+            width:100px;
+            height: 100px;
+            background-color: darkred;
+        }
+        
+        .float2{
+            /* float: left; */
+            width:300px;
+            height: 10px;
+            background-color:darksalmon;
+        }
+        
     </style>
 </head>
 
@@ -129,13 +199,24 @@
         </div>
         <!-- css旋转动画 -->
         <div class='rotate'>
-            <img src='https://dimg04.c-ctrip.com/images/300v1b000001ah1uw5387_C_210_210.jpg' class='rotateImg'/>
+            <img src='https://dimg04.c-ctrip.com/images/300v1b000001ah1uw5387_C_210_210.jpg' class='rotateImg' />
         </div>
+
+        <!-- css两列布局 -->
+        <div class='twoParent'>
+            <div class='twoLeft'>12</div>
+            <div class='twoRight'>13</div>
+        </div>
+        <!-- css三列布局 -->
+        <div class='threeParent'>
+            <div class='threeLeft'>12aa</div>
+            <div class='main'>122222</div>
+            <div class='threeRight'>13</div>
+        </div>
+        
     </div>
     <script>
     </script>
 </body>
 
 </html>
-
-

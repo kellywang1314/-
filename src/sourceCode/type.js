@@ -30,3 +30,27 @@ console.log(Object.prototype.toString.call(d));    // [object Object]
 
 // constructor 属性返回对创建此对象的数组函数的引用。
 
+
+// 找出字符串中第一个连续三个递增的数字并返回 '14251704680'
+
+function fuc1(str) {
+    let arr = str.split(''),res = [],result
+    for(let i=0; i<arr.length; i++){
+        let j = i
+        while( j< arr.length-1){
+            if( Number(arr[j]) < Number(arr[j+1])){
+                res.push(arr[j])
+                res.push(arr[j+1])
+                j=j+1
+            }else{
+                res = []
+            }
+        }
+        if(res.length >=3 ){
+            result = res.slice(0,3).join('')
+            return result
+        }
+    }
+    //return result
+}
+

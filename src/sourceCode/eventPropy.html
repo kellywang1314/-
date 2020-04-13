@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <ul id=ul>
+        <!-- 增加子元素 -->
+        <li id='li1'><span>1</span></li>
+        <li id='li2'><span>2</span></li>
+    </ul>
+    <script>
+         ul.onclick = function (e){
+          //获取事件源
+          var target = e.target;
+          console.log(target)
+          //如果 事件源 不是 li 就进入循环
+          while(!target.matches('li')){
+            //如果事件源 是 ul 就把事件源 赋值为null，跳出循环
+            //如果事件源 不是 ul 就把事件源 赋值为事件源的父元素
+            if(target === ul){
+              target = null;
+              break;
+            }
+            target = target.parentNode;
+         }
+         // 如果 target为 true
+         //也就是说 事件源是 li，就执行if语句里的代码
+         if(target){
+            console.log('li 被点击了');
+         }
+       }
+    </script>
+</body>
+</html>

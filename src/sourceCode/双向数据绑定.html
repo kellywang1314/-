@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type='text' id='input'/>
+    <span id='text'></span>
+    <script>
+        // vue.js和avalon.js实现数据双向绑定的原理就是属性访问器
+        let obj = {}
+        const input = document.getElementById('input')
+        Object.defineProperty(obj, 'hello', {
+            set: function(newValue){
+                input.value = newValue
+                document.getElementById('text').innerHTML = newValue
+            }
+        })
+        input.onchange = function(e){
+            obj.hello = e.target.value
+        }
+    </script>
+</body>
+</html>

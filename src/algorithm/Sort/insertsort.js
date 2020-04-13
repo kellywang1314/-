@@ -1,5 +1,5 @@
 
-// 插入排序 
+// 插入排序  O(n^2) 稳定
 function insertSort(arr){
     let len = arr.length
     let index,insert
@@ -8,7 +8,7 @@ function insertSort(arr){
         insert = arr[i+1]
         for(let j=i;j>=0;j--){
             if(insert < arr[j]){
-                arr[j+1] =  arr[j]
+                arr[j+1] = arr[j]
                 index = j
             }
         } 

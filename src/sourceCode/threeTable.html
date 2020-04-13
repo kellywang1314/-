@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        /* 双飞翼布局 */
+        .content {
+            width: 100%;
+            float: left;
+        }
+
+        .main {
+            height: 100px;
+            background-color: steelblue;
+            padding-left: 100px;
+            padding-right: 200px;
+        }
+
+        .left {
+            width: 100px;
+            height: 100px;
+            background-color: seagreen;
+            margin-left: -100%;
+            float: left;
+        }
+
+        .right {
+            width: 200px;
+            height: 100px;
+            background-color: sienna;
+            margin-left: -200px;
+            float: right;
+        }
+
+
+        /* 圣杯布局 */
+        .content1{
+            margin-left: 100px;
+	        margin-right: 200px;   
+        }
+        .main1,.left1,.right1{
+            float: left;
+            height: 100px;
+        }
+        .main1{ 
+            width:100%;
+            background-color: steelblue;
+        }
+        .left1{
+            width:100px;
+            margin-left: -100%;
+            background-color: tomato;
+            position: relative;
+	        left: -100px;
+        }
+        .right1{
+            width: 200px;
+            margin-left: -200px;
+            background-color: tan;
+            position: relative;
+	        right: -200px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="content">
+        <div class="main">11</div>
+    </div>
+    <div class="left">22</div>
+    <div class="right">33</div> -->
+
+
+    <div class="content1">
+        <div class="main1">11</div>
+        <div class="left1">22</div>
+        <div class="right1">33</div>
+    </div>
+
+</body>
+
+</html>

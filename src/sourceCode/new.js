@@ -1,5 +1,4 @@
 //new 的实现
-
 function myNew () {
     //创建实例对象
     let obj = new Object()
@@ -13,15 +12,4 @@ function myNew () {
     let result = fn.apply(obj,args)
 
     return typeof result === 'object' ? result : obj
-}
-
-
-// 
-function myNew(fn){
-    let args = [...argument].slice(1)
-    let obj = {}
-    obj.__proto__ = fn.prototype
-    let result = fn.call(obj,args)
-    return typeof obj === 'object' ? result : obj
-
 }

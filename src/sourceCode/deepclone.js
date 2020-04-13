@@ -14,7 +14,6 @@ function Copy(obj){
 }
 
 // 深拷贝
-
 function deepCopy(obj,hash = new WeakMap()){
     // 处理循环引用
     if(typeof obj !== 'object') return obj
@@ -31,37 +30,39 @@ function deepCopy(obj,hash = new WeakMap()){
     }
     return newObj
 }
+// 除了对可遍历对象进行遍历，还能对Date,Number等能遍历
 
-// 新增方法，用于查找
-function find(arr, item) {
-    for(var i = 0; i < arr.length; i++) {
-        if (arr[i].source === item) {
-            return arr[i];
-        }
-    }
-    return null;
+function getType(target) {
+    return Object.prototype.toString.call(target)
 }
-let a = {
-    name:"key1",
-    eat:[
-        "苹果",
-        "香蕉"
-    ]
-}
-a.d = a
 
-// 防止循环引用
-function deepCopy(obj,hash = new WeakMap()){
-    if(typeof obj !== 'object') return obj
-    let newObj = Array.isArray(obj) ? [] : {}
-    if(hash.has(obj)) return hash.get(obj)
-    hash.set(obj,newObj)
-    for(let i in obj){
-        if(typeof obj[i] === 'object'){
-            newObj[i] = deepCopy(obj[i],hash)
-        }else{
-            newObj[i] = obj[i]
-        }
+function getInit(target) {
+    const Ctor = target.constructor
+    return new Ctor()
+}
+
+// 克隆正则
+function cloneReg(targe) {
+    const reFlags = /\w*$/
+    const result = new targe.constructor(targe.source, reFlags.exec(targe))
+    result.lastIndex = targe.lastIndex
+    return result
+}
+// 克隆其他类型
+function cloneOtherType(targe, type) {
+    const Ctor = targe.constructor;
+    switch (type) {
+        case boolTag:
+        case numberTag:
+        case stringTag:
+        case errorTag:
+        case dateTag:
+            return new Ctor(targe);
+        case regexpTag:
+            return cloneReg(targe);
+        case symbolTag:
+            return cloneSymbol(targe);
+        default:
+            return null;
     }
-    return newObj
 }

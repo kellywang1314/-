@@ -26,3 +26,9 @@ function mySetTimeOut(fn,time){
         fn()
     }, time)
 }
+
+
+function deepTree(node){
+    if(node === null) return 0
+    return Math.max(deepTree(node.left),deepTree(node.right))+1
+}

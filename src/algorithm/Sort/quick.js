@@ -1,4 +1,4 @@
-//快排,注意边界条件，和每次循环要删除的值
+//快排 O(nlogn)， 不稳定
 module.exports =  Quick = (arr) => {
     if(arr.length<=1) return arr
     let pos = Math.floor(arr.length/2)

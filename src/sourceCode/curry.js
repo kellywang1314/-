@@ -27,20 +27,11 @@ hasNumber('145')
 // 柯里化封装
 function curry(fn){
     //去掉curry第一个参数 该参数是后续参数传递结束的一个函数
-     let args = [].slice.call(arguments,1)
-     //获取需要柯里化执行函数的形参参数个数
+     let args = [...arguments].slice(1)
      let len = fn.length
-     //定义变量获得传入参数个数
-     let newLen = args.length
-     //参数未传递结束继续返回函数就行传参
      function __curry(){
-         //保持除调用函数外所有参数
          args.push(...arguments)
-         //参数不够时保存每次传参个数
-         newLen+=arguments.length
-         //判断参数是否和需要调用函数的参数保持一致
-         if(newLen === len){
-             //保持一致就传入所有参数调用该函数
+         if(args.length === len){
              return fn.apply(this,args)
          }
          //否则返回函数继续传参
@@ -57,7 +48,6 @@ function curry(fn){
 //使用柯里化调用 的函数
 function add(a,b,c,d){
     let res = a+b+c+d
-    console.log(res)
     return res
 }
 //测试
@@ -70,5 +60,15 @@ console.log(curry(add)(3)(4)(2)(1));//输出 10
 console.log(curry(add,1,2,3,4,5));//输出 参数传多了
 
 
-// 函数柯里化
+// var arr=[1,2,3,4,2,2],找出这个数组中出现次数最多的元素，输出该元素，并且将这些元素的下标都输出出来
+
+function Count(arr=[]){
+    return arr.reduce((acc,item,index) => {
+        acc[item] = {}
+        acc[item].indexs = []
+        acc[item].count = 0
+        acc[item].count = (0 || acc[item].count)+1
+        acc[item].indexs.push(index)
+    },{})
+}
 

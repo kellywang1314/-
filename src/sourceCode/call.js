@@ -1,10 +1,10 @@
-//call源码实现:主要是吧调用call的函数赋值给thisObj对象
-Function.prototype. myCall = function(thisObj){
+//call源码实现:主要是把调用call的函数赋值给thisObj对象
+Function.prototype.myCall = function(thisObj){
     if (typeof this !== 'function') {
         throw this + ' is not a function';
-      }
+    }
     let args = [...arguments]
-    let fn = new Symbol('fn')
+    let fn = Symbol('fn')
     thisObj[fn] = this
     const result = thisObj[fn](...args)
     delete thisObj[fn]
@@ -23,4 +23,4 @@ Function.prototype.myBind= function(thisObj){
     }
     return bound
 }
-export {myCall,myBind}
+export { myCall, myBind }

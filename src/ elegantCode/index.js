@@ -15,7 +15,7 @@ const func3 = () => {
 const index = 1
 
 // switch的写法 
-switch(index){
+switch (index) {
     case 1:
         func1()
         break
@@ -28,9 +28,9 @@ switch(index){
 }
 // new Map
 const funcs = new Map([
-    [1,func1],
-    [2,func1],
-    [3,func1]
+    [1, func1],
+    [2, func1],
+    [3, func1]
 ])
 let map = (index) => {
     return funcs.get(index)
@@ -48,38 +48,38 @@ map(index)()
 
 if (identity == 'guest') {
     if (status == 1) {
-    //函数处理
+        //函数处理
     } else if (status == 2) {
-    //函数处理
+        //函数处理
     } else if (status == 3) {
-    //函数处理
+        //函数处理
     } else if (status == 4) {
-    //函数处理
+        //函数处理
     } else if (status == 5) {
-    //函数处理
+        //函数处理
     } else {
-    //函数处理
+        //函数处理
     }
 } else if (identity == 'master') {
     if (status == 1) {
-    //函数处理
+        //函数处理
     } else if (status == 2) {
-    //函数处理
+        //函数处理
     } else if (status == 3) {
-    //函数处理
+        //函数处理
     } else if (status == 4) {
-    //函数处理
+        //函数处理
     } else if (status == 5) {
-    //函数处理
+        //函数处理
     } else {
-    //函数处理
+        //函数处理
     }
 }
 
 // new Map写法，定义一个key-value map
 let mapSet = new Map([
-    [guest_1,()=>{func1()}],
-    [guest_2,()=>{func2()}],
+    [guest_1, () => { func1() }],
+    [guest_2, () => { func2() }],
 ])
 
 let actions = mapSet.get(`${identity}_${status}`)
@@ -88,47 +88,59 @@ actions.call(this)
 
 // reduce实现下面功能，多用于各种分类/统计
 // 数组扁平化：const arr = [0, 1, [2, 3], [4, 5, [6, 7]], [8, [9, 10, [11, 12]]]]
-    function Flat(arr=[]){
-        return arr.reduce((cum,item) => (
-            cum.concat(Array.isArray(item) ? Flat(item): item)
-        ),[])
-    }
+function Flat(arr = []) {
+    return arr.reduce((cum, item) => (
+        cum.concat(Array.isArray(item) ? Flat(item) : item)
+    ), [])
+}
 
-    
+
 // 数组去重：const arr = [2, 1, 0, 3, 2, 1, 2],这里不能用push，因为push返回的是值
-    function Unique(arr=[]){
-        return arr.reduce((cum,item) => {
-            return cum.includes(item) ? cum : [...cum,item]
-        },[])
+function Unique(arr = []) {
+    return arr.reduce((cum, item) => {
+        return cum.includes(item) ? cum : [...cum, item]
+    }, [])
+}
+
+function unique(arr) {
+    for (var i = 0; i < arr.length; i++) {
+        for (var j = i + 1; j < arr.length; j++) {
+            if (arr[i] == arr[j]) {         //第一个等同于第二个，splice方法删除第二个
+                arr.splice(j, 1);
+                j--;
+            }
+        }
     }
+    return arr;
+}
 
 
 // 数组成员个数统计：const arr = [0, 1, 1, 2, 2, 2],
 // 必须要返回cum，如果处理语句没有返回，需要处理逻辑,cum
-    function Count(arr=[]){
-        return arr.reduce((cum,item)=>{
-            cum[item]=(cum[item] || 0)+1
-            return cum
-        },{})
-    }
+function Count(arr = []) {
+    return arr.reduce((cum, item) => {
+        cum[item] = (cum[item] || 0) + 1
+        return cum
+    }, {})
+}
 // 数组成员位置记录：const  arr = [2, 1, 5, 4, 2, 1, 6, 6, 7]
-    function Postion(arr=[],pos){
-        return arr.reduce((cum,item,index)=>{
-            item === pos && cum.push(index)
-            return cum
-        },[])
-    }
+function Postion(arr = [], pos) {
+    return arr.reduce((cum, item, index) => {
+        item === pos && cum.push(index)
+        return cum
+    }, [])
+}
 
 // URL参数反序列化  const url = https://www.baidu.com?age=25&name=TYJ
-    function ParseUrl(url=''){
-        let params = url.split('?')[1].split('&')
-        return params.reduce((cum,item) => {
-            let items = item.split('=')
-            cum[item[0]]=items[1]
-            return  cum
-        },{})
-    }
+function ParseUrl(url = '') {
+    let params = url.split('?')[1].split('&')
+    return params.reduce((cum, item) => {
+        let items = item.split('=')
+        cum[item[0]] = items[1]
+        return cum
+    }, {})
+}
 
 
-    
+
 
